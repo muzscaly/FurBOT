@@ -9,10 +9,10 @@ from telegram.error import BadRequest
 from telegram.ext import CommandHandler, run_async, DispatcherHandlerStop, MessageHandler, Filters, CallbackQueryHandler
 from telegram.utils.helpers import mention_html
 
-from tg_bot import dispatcher, BAN_STICKER
+from tg_bot import SUDO_USERS, dispatcher, BAN_STICKER
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import is_user_admin, bot_admin, user_admin_no_reply, user_admin, \
-    can_restrict
+    can_restrict, user_not_admin
 from tg_bot.modules.helper_funcs.extraction import extract_text, extract_user_and_text, extract_user
 from tg_bot.modules.helper_funcs.filters import CustomFilters
 from tg_bot.modules.helper_funcs.misc import split_message
@@ -104,6 +104,13 @@ def button(bot: Bot, update: Update) -> str:
     query = update.callback_query  # type: Optional[CallbackQuery]
     user = update.effective_user  # type: Optional[User]
     match = re.match(r"rm_warn\((.+?)\)", query.data)
+
+    chat = update.effective_chat
+    admin = chat.get_member(int(user.id))
+    if ( admin.status != 'creator' ) and ( not admin.can_restrict_members ) and ( not int(user.id) in SUDO_USERS ):
+        query.answer(text="You don't have sufficient permissions to remove warns!")
+        return ""
+
     if match:
         user_id = match.group(1)
         chat = update.effective_chat  # type: Optional[Chat]
@@ -158,6 +165,11 @@ def reset_warns(bot: Bot, update: Update, args: List[str]) -> str:
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
 
+    admin = chat.get_member(int(user.id))
+    if ( admin.status != 'creator' ) and ( not admin.can_restrict_members ) and ( not int(user.id) in SUDO_USERS ):
+        update.effective_message.reply_text("You don't have sufficient permissions to restrict users!")
+        return ""
+
     user_id = extract_user(message, args)
 
     if user_id:
@@ -183,6 +195,11 @@ def remove_warns(bot: Bot, update: Update, args: List[str]) -> str:
     message = update.effective_message  # type: Optional[Message]
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
+
+    admin = chat.get_member(int(user.id))
+    if ( admin.status != 'creator' ) and ( not admin.can_restrict_members ) and ( not int(user.id) in SUDO_USERS ):
+        update.effective_message.reply_text("You don't have sufficient permissions to restrict users!")
+        return ""
 
     user_id = extract_user(message, args)
 
@@ -234,6 +251,12 @@ def warns(bot: Bot, update: Update, args: List[str]):
 def add_warn_filter(bot: Bot, update: Update):
     chat = update.effective_chat  # type: Optional[Chat]
     msg = update.effective_message  # type: Optional[Message]
+    user = update.effective_user
+
+    admin = chat.get_member(int(user.id))
+    if ( admin.status != 'creator' ) and ( not admin.can_restrict_members ) and ( not int(user.id) in SUDO_USERS ):
+        update.effective_message.reply_text("You don't have sufficient permissions to restrict users!")
+        return ""
 
     args = msg.text.split(None, 1)  # use python's maxsplit to separate Cmd, keyword, and reply_text
 
@@ -265,6 +288,12 @@ def add_warn_filter(bot: Bot, update: Update):
 def remove_warn_filter(bot: Bot, update: Update):
     chat = update.effective_chat  # type: Optional[Chat]
     msg = update.effective_message  # type: Optional[Message]
+    user = update.effective_user
+
+    admin = chat.get_member(int(user.id))
+    if ( admin.status != 'creator' ) and ( not admin.can_restrict_members ) and ( not int(user.id) in SUDO_USERS ):
+        update.effective_message.reply_text("You don't have sufficient permissions to restrict users!")
+        return ""
 
     args = msg.text.split(None, 1)  # use python's maxsplit to separate Cmd, keyword, and reply_text
 
@@ -314,7 +343,7 @@ def list_warn_filters(bot: Bot, update: Update):
     if not filter_list == CURRENT_WARNING_FILTER_STRING:
         update.effective_message.reply_text(filter_list, parse_mode=ParseMode.HTML)
 
-
+@user_not_admin
 @run_async
 @loggable
 def reply_filter(bot: Bot, update: Update) -> str:
@@ -343,6 +372,11 @@ def set_warn_limit(bot: Bot, update: Update, args: List[str]) -> str:
     user = update.effective_user  # type: Optional[User]
     msg = update.effective_message  # type: Optional[Message]
 
+    admin = chat.get_member(int(user.id))
+    if ( admin.status != 'creator' ) and ( not admin.can_restrict_members ) and ( not int(user.id) in SUDO_USERS ):
+        update.effective_message.reply_text("You don't have sufficient permissions to restrict users!")
+        return ""
+
     if args:
         if args[0].isdigit():
             if int(args[0]) < 3:
@@ -370,6 +404,11 @@ def set_warn_strength(bot: Bot, update: Update, args: List[str]):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
     msg = update.effective_message  # type: Optional[Message]
+
+    admin = chat.get_member(int(user.id))
+    if ( admin.status != 'creator' ) and ( not admin.can_restrict_members ) and ( not int(user.id) in SUDO_USERS ):
+        update.effective_message.reply_text("You don't have sufficient permissions to restrict users!")
+        return ""
 
     if args:
         if args[0].lower() in ("on", "yes"):

@@ -7,7 +7,7 @@ from telegram.ext import CommandHandler, Filters
 from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import mention_html
 
-from tg_bot import dispatcher, LOGGER
+from tg_bot import SUDO_USERS, dispatcher, LOGGER
 from tg_bot.modules.helper_funcs.chat_status import user_admin, can_delete
 from tg_bot.modules.log_channel import loggable
 
@@ -17,6 +17,14 @@ from tg_bot.modules.log_channel import loggable
 @loggable
 def purge(bot: Bot, update: Update, args: List[str]) -> str:
     msg = update.effective_message  # type: Optional[Message]
+
+    user = update.effective_user
+    chat = update.effective_chat
+    admin = chat.get_member(int(user.id))
+    if ( admin.status != 'creator' ) and ( not admin.can_delete_messages ) and ( not int(user.id) in SUDO_USERS ):
+        update.effective_message.reply_text("You don't have sufficient permissions to delete messages!")
+        return ""
+
     if msg.reply_to_message:
         user = update.effective_user  # type: Optional[User]
         chat = update.effective_chat  # type: Optional[Chat]
@@ -73,6 +81,10 @@ def del_message(bot: Bot, update: Update) -> str:
     if update.effective_message.reply_to_message:
         user = update.effective_user  # type: Optional[User]
         chat = update.effective_chat  # type: Optional[Chat]
+        admin = chat.get_member(int(user.id))
+        if ( admin.status != 'creator' ) and ( not admin.can_delete_messages ) and ( not int(user.id) in SUDO_USERS ):
+            update.effective_message.reply_text("You don't have sufficient permissions to delete messages!")
+            return ""
         if can_delete(chat, bot.id):
             update.effective_message.reply_to_message.delete()
             update.effective_message.delete()
