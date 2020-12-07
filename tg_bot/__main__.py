@@ -19,17 +19,19 @@ from tg_bot.modules.helper_funcs.chat_status import is_user_admin
 from tg_bot.modules.helper_funcs.misc import paginate_modules
 
 PM_START_TEXT = """
-Yo {}, I'm *{}*! I'm a group manager bot. You can find the list of available commands with /help.
+Hello {}, my name is *{}*! I'm a group manager bot.
 
-Feel free to join @IzumiUchihaNews for announcements regarding features added in bot, etc.
+You can find the list of available commands with /help. 
 
-You can also contribute to my bot maintainers with /donate.
+If you can't find answer to your question, if you want to submit a bug or a feature request - feel free to do it in @bot\_workshop group.
 
-Wanna add me into your group? Click here => [ Add me ](https://t.me/{}?startgroup=true)
+We have a news channel too, @bot\_workshop\_channel, for announcements regarding features added, downtime etc.
+
+Last but not least, if you enjoy using me and/or you want to contribute you can hit /donate to help funding my hosting services.
 """
 
 SOURCE_STRING = """
-I'm built in python3, using the python-telegram-bot library, and am fully opensource - you can find what makes me tick [here](https://github.com/soulr344/tgbot) (originally based on [this](https://github.com/corsicanu/tgbot))
+I'm built in python3, using the python-telegram-bot library, and am fully opensource - you can find what makes me tick [here](https://github.com/corsicanu/tgbot)
 """
 
 HELP_STRINGS = """
