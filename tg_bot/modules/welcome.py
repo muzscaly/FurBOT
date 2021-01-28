@@ -222,7 +222,8 @@ def new_member(update: Update, context: CallbackContext):
                         cust_media,
                         caption=res,
                         reply_to_message_id=msg.message_id,
-                        parse_mode=ParseMode.MARKDOWN)
+                        parse_mode=ParseMode.MARKDOWN,
+                        disable_web_page_preview=True)
                     pass
                 else:
                     sent = send(
@@ -341,7 +342,8 @@ def left_member(update: Update, context: CallbackContext):
                     cust_media,
                     caption=res,
                     reply_to_message_id=update.effective_message.message_id,
-                    parse_mode=ParseMode.MARKDOWN)
+                    parse_mode=ParseMode.MARKDOWN,
+                    disable_web_page_preview=True)
                 return
 
             send(update, res, keyboard, sql.DEFAULT_GOODBYE)
