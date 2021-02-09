@@ -308,8 +308,8 @@ SMACK_STRING = """[smack my beach up!!](https://vimeo.com/31482159)"""
 def etaWen(update, context):
     eta = update.message.reply_text(text=random.choice(ETA_STRINGS))
     time.sleep(3)
-    date = datetime.now() + timedelta(days=random.randrange(10, 450))
-    eta.edit_text(date.strftime("%B %d, %Y") + "\n\nDate values might be inaccurate.")
+    date = datetime.now() + timedelta(days=random.randrange(69, 969))
+    eta.edit_text(date.strftime("%B %d, %Y") + "\n\nDate values might be inaccurate" + random.choice(EMOJI))
 
 def runs(update: Update, context: CallbackContext):
     bot = context.bot
