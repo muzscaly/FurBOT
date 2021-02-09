@@ -9,6 +9,7 @@ import os
 from telegram import Message, Chat, Update, Bot, MessageEntity, ParseMode
 from telegram.ext import CommandHandler, run_async, Filters
 from telegram.utils.helpers import escape_markdown, mention_html
+from datetime import datetime, timedelta
 
 from tg_bot import dispatcher, CallbackContext, OWNER_ID, SUDO_USERS, SUPPORT_USERS, WHITELIST_USERS, BAN_STICKER
 from tg_bot.__main__ import STATS, USER_INFO, GDPR
@@ -18,6 +19,16 @@ from tg_bot.modules.helper_funcs.filters import CustomFilters
 
 from geopy.geocoders import Nominatim
 from telegram import Location
+
+ETA_STRINGS = (
+	"Flooding group chats...",
+	"Starting time machine...",
+	"Spamming XDA-general...",
+	"Spamming the dev...",
+	"Going to an oracle...",
+	"Activating machine learning...",
+	"Brute forcing password..."
+)
 
 RUN_STRINGS = (
     "Where do you think you're going?",
@@ -294,6 +305,11 @@ GMAPS_TIME = "https://maps.googleapis.com/maps/api/timezone/json"
 
 SMACK_STRING = """[smack my beach up!!](https://vimeo.com/31482159)"""
 
+def etaWen(update, context):
+    eta = update.message.reply_text(text=random.choice(ETA_STRINGS))
+    time.sleep(3)
+    date = datetime.now() + timedelta(days=random.randrange(10, 450))
+    eta.edit_text(date.strftime("%B %d, %Y") + "\n\nDate values might be inaccurate.")
 
 def runs(update: Update, context: CallbackContext):
     bot = context.bot
@@ -701,6 +717,10 @@ SLAP_HANDLER = DisableAbleCommandHandler("slap", slap, run_async=True)
 PUNCH_HANDLER = DisableAbleCommandHandler("punch", punch, run_async=True)
 SPANK_HANDLER = DisableAbleCommandHandler("spank", slap, run_async=True)
 INFO_HANDLER = DisableAbleCommandHandler("info", info, run_async=True)
+ETA_HANDLER = CommandHandler("eta",
+                              etaWen,
+                              filters=Filters.user(SUDO_USERS),
+                              run_async=True)
 ECHO_HANDLER = CommandHandler("echo",
                               echo,
                               filters=Filters.user(OWNER_ID),
@@ -729,6 +749,7 @@ dispatcher.add_handler(PUNCH_HANDLER)
 dispatcher.add_handler(SPANK_HANDLER)
 dispatcher.add_handler(INFO_HANDLER)
 dispatcher.add_handler(ECHO_HANDLER)
+dispatcher.add_handler(ETA_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
 dispatcher.add_handler(STATS_HANDLER)
 dispatcher.add_handler(GDPR_HANDLER)
