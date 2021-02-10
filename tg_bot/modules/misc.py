@@ -1,7 +1,7 @@
 import html
 import json
 import random
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Optional, List
 import time
 import requests
@@ -9,7 +9,6 @@ import os
 from telegram import Message, Chat, Update, Bot, MessageEntity, ParseMode
 from telegram.ext import CommandHandler, run_async, Filters
 from telegram.utils.helpers import escape_markdown, mention_html
-from datetime import datetime, timedelta
 
 from tg_bot import dispatcher, CallbackContext, OWNER_ID, SUDO_USERS, SUPPORT_USERS, WHITELIST_USERS, BAN_STICKER
 from tg_bot.__main__ import STATS, USER_INFO, GDPR
@@ -202,19 +201,15 @@ PUNCH = (
 )
 
 ITEMS = (
-    "a Samsung S10+",
-    "a Samsung S20 Ultra",
-    "an iPhone XS MAX",
-    "an iPhone XII",
-    "a Note 9",
-    "a Note 10+",
+    "a Samsung M10",
+    "a Samsung S21 Ultra",
+    "an iPhone XII Pro Max Ultra Lite",
     "a Note 20 Ultra",
     "knox 0x0",
     "knox 1x0",
     "knox 0x2",
-    "OneUI 2.0",
-    "OneUI 2.5",
-    "OneUI 3.0",
+    "OneUI 3.1",
+    "OneUI 3.5",
     "OneUI 69.0",
     "TwoUI 1.0",
     "Secure Folder",
@@ -226,17 +221,12 @@ ITEMS = (
     "payment lock",
     "stock rom",
     "good rom",
-    "Good Lock apps",
-    "8.1 port",
-    "Pie port",
-    "Q port",
-    "R port",
-    "Pie OTA",
-    "Q OTA",
+    "latest Good Lock apps",
     "R OTA",
-    "LineageOS 16",
-    "LineageOS 17",
-    "LineageOS 18",
+    "S OTA",
+    "LineageOS 18.1",
+    "LineageOS 19",
+    "latest MIUI stable",
     "a bugless rom",
     "a kernel",
     "a kernal",
@@ -256,19 +246,21 @@ ITEMS = (
     "a keylogger",
     "120FPS",
     "120HZ",
+    "144HZ",
     "a download link",
     "168h uptime",
     "a paypal link",
     "treble support",
     "EVO-X gsi",
-    "Q gsi",
-    "Q beta",
+    "R gsi",
     "R beta",
+    "S beta",
     "a Rom Control",
     "a hamburger",
     "a cheeseburger",
     "a Big-Mac",
     "a Mercedes",
+    "a Fiat",
 )
 
 THROW = (
@@ -309,7 +301,7 @@ SMACK_STRING = """[smack my beach up!!](https://vimeo.com/31482159)"""
 @user_admin
 def etaWen(update, context):
     eta = update.message.reply_text(text=random.choice(ETA_STRINGS))
-    time.sleep(3)
+    time.sleep(5)
     date = datetime.now() + timedelta(days=random.randrange(69, 969))
     eta.edit_text(date.strftime("%B %d, %Y") + "\n\nDate values might be inaccurate" + random.choice(EMOJI))
 
