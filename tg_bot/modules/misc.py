@@ -14,6 +14,7 @@ from datetime import datetime, timedelta
 from tg_bot import dispatcher, CallbackContext, OWNER_ID, SUDO_USERS, SUPPORT_USERS, WHITELIST_USERS, BAN_STICKER
 from tg_bot.__main__ import STATS, USER_INFO, GDPR
 from tg_bot.modules.disable import DisableAbleCommandHandler
+from tg_bot.modules.helper_funcs.chat_status import user_admin, is_user_admin
 from tg_bot.modules.helper_funcs.extraction import extract_user
 from tg_bot.modules.helper_funcs.filters import CustomFilters
 
@@ -305,6 +306,7 @@ GMAPS_TIME = "https://maps.googleapis.com/maps/api/timezone/json"
 
 SMACK_STRING = """[smack my beach up!!](https://vimeo.com/31482159)"""
 
+@user_admin
 def etaWen(update, context):
     eta = update.message.reply_text(text=random.choice(ETA_STRINGS))
     time.sleep(3)
@@ -719,7 +721,7 @@ SPANK_HANDLER = DisableAbleCommandHandler("spank", slap, run_async=True)
 INFO_HANDLER = DisableAbleCommandHandler("info", info, run_async=True)
 ETA_HANDLER = CommandHandler("eta",
                               etaWen,
-                              filters=Filters.user(SUDO_USERS),
+                              filters=Filters.chat_type.groups,
                               run_async=True)
 ECHO_HANDLER = CommandHandler("echo",
                               echo,
