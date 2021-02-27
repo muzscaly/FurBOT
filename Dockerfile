@@ -58,7 +58,7 @@ RUN python3 -m ensurepip \
 # Clone repo and prepare working directory	
 #	
 RUN git clone 'https://github.com/muzscaly/FurBOT.git' /root/FurBOT/	
-RUN mkdir /root/tgbot/bin/	
+RUN mkdir -p /root/tgbot/bin/	
 WORKDIR /root/tgbot/	
 
 #	
