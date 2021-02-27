@@ -45,7 +45,8 @@ RUN apk add --no-cache --update \
     sudo \	
     zlib-dev \	
     zip	\
-    rust
+    rust \
+    cargo
 
 
 RUN python3 -m ensurepip \	
