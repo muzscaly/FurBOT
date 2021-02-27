@@ -11,4 +11,3 @@ speedtest-cli>=2.0.2
 bs4
 lxml
 pytz
-cryptography==2.8
