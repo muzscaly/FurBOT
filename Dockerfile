@@ -58,8 +58,8 @@ RUN python3 -m ensurepip \
 # Clone repo and prepare working directory	
 #	
 RUN git clone 'https://github.com/muzscaly/FurBOT.git' /root/FurBOT/	
-RUN mkdir -p /root/tgbot/bin/	
-WORKDIR /root/tgbot/	
+RUN mkdir /root/FurBOT/bin/	
+WORKDIR /root/FurBOT/	
 
 #	
 # Install requirements	
