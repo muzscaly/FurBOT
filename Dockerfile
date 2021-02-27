@@ -44,7 +44,8 @@ RUN apk add --no-cache --update \
     sqlite-dev \	
     sudo \	
     zlib-dev \	
-    zip	
+    zip	\
+    rust
 
 
 RUN python3 -m ensurepip \	
