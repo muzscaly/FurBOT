@@ -3,7 +3,6 @@ import os
 import sys
 
 import telegram.ext as tg
-import telegram.ext.CallbackContext as CallbackContext
 
 # enable logging
 logging.basicConfig(
@@ -121,6 +120,8 @@ SUDO_USERS.add(OWNER_ID)
 updater = tg.Updater(TOKEN, workers=WORKERS)
 
 dispatcher = updater.dispatcher
+
+CallbackContext = tg.CallbackContext
 
 SUDO_USERS = list(SUDO_USERS)
 WHITELIST_USERS = list(WHITELIST_USERS)
