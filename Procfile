@@ -1,2 +1,1 @@
-worker: python -m tg_bot
-web: python -m tg_bot
+worker: python3 -m tg_bot
