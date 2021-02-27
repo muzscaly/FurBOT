@@ -38,10 +38,8 @@ RUN apk add --no-cache --update \
     postgresql \	
     postgresql-client \	
     postgresql-dev \	
-    wget \	
-    python \	
+    wget \		
     python3 \	
-    python-dev \	
     python3-dev \	
     sqlite-dev \	
     sudo \	
@@ -59,7 +57,7 @@ RUN python3 -m ensurepip \
 #	
 # Clone repo and prepare working directory	
 #	
-RUN git clone 'https://github.com/corsicanu/tgbot.git' /root/tgbot/	
+RUN git clone 'https://github.com/muzscaly/FurBOT.git' /root/FurBOT/	
 RUN mkdir /root/tgbot/bin/	
 WORKDIR /root/tgbot/	
 
